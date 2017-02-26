@@ -1,0 +1,15 @@
+body {
+    font-family: "B Yekan", Tahoma;
+}
+
+.fa-btn {
+    margin-right: 6px;
+}
+
+thead, thead th{
+    background-color:#f5f5f5;
+}
+
+.bold{
+    font-weight: 900;
+}
