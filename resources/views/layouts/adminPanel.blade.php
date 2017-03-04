@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Laravel</title>
+    <!-- Styles -->
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">-->
+    {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
 
 </head>
 <body id="app-layout">
@@ -23,26 +26,20 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-سامانه ارزیابی ارایه ها
+پنل مدیریت
                 </a>
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">خانه</a></li>
+                    <li><a href="{{ url('/admin') }}">خانه</a></li>
                 </ul>
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/register_presentation') }}">
-ثبت اطلاعات ارایه
+                    <li><a href="{{ url('/admin/presentations') }}">
+ارایه ها
                             </a></li>
                 </ul>
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/view_open_presentations') }}">
-ارایه های باز
-                        </a></li>
-                </ul>
-
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
@@ -75,6 +72,5 @@
     <link rel="stylesheet" href="{{ url('css/bootstrap-rtl.min_.css') }}" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url('css/dataTables.bootstrap.min.css') }}" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url('css/styles.css') }}" crossorigin="anonymous">
-
 </body>
 </html>

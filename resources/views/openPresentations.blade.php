@@ -33,7 +33,10 @@
                     echo "<td>$i</td>";
                     echo "<td>$row->title</td>";
                     echo "<td>$row->name</td>";?>
-                    <td><a href="{{ url("/evaluate_presentation?id=").$row->id }}" class="btn btn-info" role=button"> ارزیابی</a></td>
+
+                    <td>
+                        <a href="{{ url("/evaluate_presentation?id=").$row->id }}" class="btn btn-info" role=button"> ارزیابی</a>
+                    </td>
                     </tr>
                 <?php
                 } ?>
