@@ -43,6 +43,7 @@ class PresentationController extends Controller
         $openPresentation = Presentation::whereDate('evaluation_start','<=',$now)
             ->whereDate('evaluation_end','>=',$now)
             ->get();
+        echo $openPresentation->count();
         return view('openPresentations')->with('open_presentation',$openPresentation);
     }
 

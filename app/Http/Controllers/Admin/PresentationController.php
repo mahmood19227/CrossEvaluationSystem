@@ -12,12 +12,14 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\Eval_;
+use Carbon\Carbon;
 
 class PresentationController extends \App\Http\Controllers\PresentationController
 {
     //
     function viewPresentations($message=null){
         $presentations = Presentation::all();
+        echo $presentations->count();
         return view('admin.presentations')
             ->with('presentations',$presentations)
             ->with('message',$message);
@@ -28,9 +30,9 @@ class PresentationController extends \App\Http\Controllers\PresentationControlle
             $p = Presentation::find($id);
             $now = time();
             $p->evaluation_start = date(DATE_ATOM);
-            $p->evaluation_end = date(DATE_ATOM,$now+15*60);
+            $p->evaluation_end = date(DATE_ATOM,$now+$period*60);
             if($p->save())
-                return $this->viewPresentations('ارایه مورد نظر به مدت 15 دقیقه باز شد.');
+                return $this->viewPresentations("ارایه مورد نظر به مدت $period دقیقه باز شد.");
             else
                 return $this->viewPresentations('مشکلی پیش آمده است.');
         }
