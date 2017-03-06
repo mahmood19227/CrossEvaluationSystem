@@ -68,13 +68,15 @@ class PresentationController extends Controller
             return view('home')->with('message','اکنون زمان ارزیابی این ارایه نیست');
         $userid = Auth::user()->id;
         $presentationdid = $presentation->id;
-        $factorCount = Factor::all()->count();
+        $factors = Factor::all();
         $saved = true;
-        for($i=1;$i<=$factorCount;$i++)
+        //echo $request;
+       foreach($factors as $factor)
         {
+            $fid = $factor->id;
             $eval = Evaluation::firstOrNew(
-                ['userid'=>$userid,'presentationid'=>$presentationdid,'factorid'=>$i]);
-            $eval->point = $request[$i];
+                ['userid'=>$userid,'presentationid'=>$presentationdid,'factorid'=>$fid]);
+            $eval->point = $request["$fid"];
             $saved = $saved && $eval->save();
         }
         if($saved)
