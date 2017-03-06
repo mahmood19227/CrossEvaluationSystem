@@ -40,6 +40,9 @@
                         echo "<td>$i</td>";
                         echo "<td>$row->title</td>";
                         echo "<td>".$row->user->name."</td>";
+                        echo "<td>$row->evaluation_start</td>";
+                        echo "<td>$row->evaluation_end</td>";
+                        echo "<td>$now</td>";
                         $status = "";
                         if($row->evaluation_start>$now)
                             $status = 'هنوز ارزیابی نشده';
@@ -51,8 +54,11 @@
                             $status .= date("H:i:s",$remaining);
                         }
                         echo "<td>".$status."</td>";
-                ?>
+                    ?>
                     <td>
+
+                    </td>
+                <td>
                         <a href="{{ url("/evaluate_presentation?id=").$row->id }}" class="btn btn-info" role=button"> ارزیابی</a>
                     </td>
                     <td>
