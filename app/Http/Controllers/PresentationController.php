@@ -80,8 +80,8 @@ class PresentationController extends Controller
             $saved = $saved && $eval->save();
         }
         if($saved)
-            return view('Home')->with('message','ارزیابی شما با موفقیت ثبت گردید');
-        return view('Home')->with('message','مشکلی در ثبت ارزیابی شما پدید آمد!');
+            return view('home')->with('message','ارزیابی شما با موفقیت ثبت گردید');
+        return view('home')->with('message','مشکلی در ثبت ارزیابی شما پدید آمد!');
 
     }
 }
