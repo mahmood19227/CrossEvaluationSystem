@@ -4,6 +4,12 @@
     </IfModule>
 
     RewriteEngine On
+    RewriteBase /ces/
+	Require all granted
+	Order allow,deny
+    Allow from all
+    Options FollowSymlinks
+    #AllowOverride All
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
