@@ -32,7 +32,7 @@
                     echo '<tr>';
                     echo "<td>$i</td>";
                     echo "<td>$row->title</td>";
-                    echo "<td>$row->name</td>";?>
+                    echo "<td>$row->user->name</td>";?>
 
                     <td>
                         <a href="{{ url("/evaluate_presentation?id=").$row->id }}" class="btn btn-info" role=button"> ارزیابی</a>
