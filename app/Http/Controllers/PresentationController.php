@@ -32,9 +32,9 @@ class PresentationController extends Controller
         $presentation->description = $request['desc'];
         $presentation->title = $request['title'];
         if($presentation->save())
-            return view('Home')->with('message','اطلاعات ارایه با موفقیت ثبت شد');
+            return view('home')->with('message','اطلاعات ارایه با موفقیت ثبت شد');
         else
-            return view('Home')->with('message','در ثبت ارایه مشکلی پیش آمده است');
+            return view('home')->with('message','در ثبت ارایه مشکلی پیش آمده است');
 
     }
 
