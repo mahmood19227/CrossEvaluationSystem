@@ -39,8 +39,8 @@ class PresentationController extends Controller
     }
 
     function viewOpenPresentations(){
-        $now = date(DATE_ATOM);
-        //$now = str_replace("T"," ",$now);
+        $now = str_replace('T',' ', date(DATE_ATOM));
+        $now = str_replace('+00:00','',$now);
         echo $now;
         $openPresentation = Presentation::whereDate('evaluation_start','<=',$now)
             ->whereDate('evaluation_end','>=',$now)

@@ -30,7 +30,8 @@
                 </thead>
                 <?php
                     $i=0;
-                    $now = date(DATE_ATOM);
+                    $now = str_replace('T',' ', date(DATE_ATOM));
+                    $now = str_replace('+00:00','',$now);
                     foreach($presentations as $row)
                     {
                         if($row->userid==Auth::user()->id)
@@ -46,7 +47,7 @@
                         $status = "";
                         if($row->evaluation_start>$now)
                             $status = 'هنوز ارزیابی نشده';
-                        elseif($row->evaluation_end>$now)
+                        elseif($row->evaluation_end<$now)
                             $status = 'ارزیابی شده';
                         else{
                             $status = "در حال ارزیابی<br/> <small>زمان باقی مانده:";
