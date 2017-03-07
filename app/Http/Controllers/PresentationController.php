@@ -45,7 +45,6 @@ class PresentationController extends Controller
         $openPresentation = Presentation::whereDate('evaluation_start','<=',$now)
             ->whereDate('evaluation_end','>=',$now)
             ->get();
-        echo $openPresentation->count();
         return view('openPresentations')->with('open_presentation',$openPresentation);
     }
 
@@ -70,7 +69,6 @@ class PresentationController extends Controller
         $presentationdid = $presentation->id;
         $factors = Factor::all();
         $saved = true;
-        //echo $request;
        foreach($factors as $factor)
         {
             $fid = $factor->id;

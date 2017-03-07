@@ -21,6 +21,10 @@
                         <th class="col-sm-3">
                             ارایه دهنده
                         <th class="col-sm-3">
+شروع ارزیابی
+                        <th class="col-sm-3">
+                            پایان ارزیابی
+                        <th class="col-sm-3">
                             وضعیت ارزیابی
                         <th class="col-sm-1">
                         <th class="col-sm-1">
@@ -41,9 +45,8 @@
                         echo "<td>$i</td>";
                         echo "<td>$row->title</td>";
                         echo "<td>".$row->user->name."</td>";
-                        echo "<td>$row->evaluation_start</td>";
+                        echo "<td><small>$row->evaluation_start</small></td>";
                         echo "<td>$row->evaluation_end</td>";
-                        echo "<td>$now</td>";
                         $status = "";
                         if($row->evaluation_start>$now)
                             $status = 'هنوز ارزیابی نشده';
@@ -56,9 +59,6 @@
                         }
                         echo "<td>".$status."</td>";
                     ?>
-                    <td>
-
-                    </td>
                 <td>
                         <a href="{{ url("/evaluate_presentation?id=").$row->id }}" class="btn btn-info" role=button"> ارزیابی</a>
                     </td>
