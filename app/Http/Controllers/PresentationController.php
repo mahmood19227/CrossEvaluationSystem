@@ -41,7 +41,6 @@ class PresentationController extends Controller
     function viewOpenPresentations(){
         $now = str_replace('T',' ', date(DATE_ATOM));
         $now = str_replace('+00:00','',$now);
-        //echo $now;
         $openPresentation = Presentation::
             where('evaluation_start','<=',$now)
             ->where('evaluation_end','>=',$now)
@@ -62,7 +61,8 @@ class PresentationController extends Controller
             ->with('user_presentation',$user_presentation);
     }
     public function registerEvaluations(Request $request){
-        $now = date(DATE_ATOM);
+        $now = str_replace('T',' ', date(DATE_ATOM));
+        $now = str_replace('+00:00','',$now);
         $presentation = Presentation::find($request['presentation_id']);
         if($presentation->evaluation_start>=$now or $presentation->evaluation_end<=$now)
             return view('home')->with('message','اکنون زمان ارزیابی این ارایه نیست');
