@@ -62,18 +62,11 @@
                 <td>
                         <a href="{{ url("/evaluate_presentation?id=").$row->id }}" class="btn btn-info" role=button"> ارزیابی</a>
                     </td>
-                    <td>
-                        <a href="{{ url("/admin/open_evaluation",['id'=>$row->id,'period'=>15,'offset'=>'now']) }}"
-                        class="btn btn-info" role=button"><small>
-                            باز کردن برای 15 دقیقه
-                            </small></a></td>
-                    <td>
-                        <a href="{{ url("/admin/open_evaluation",['id'=>$row->id,'period'=>720,'offset'=>'now']) }}"
-                           class="btn btn-info" role=button">
-                            <small>
-باز کردن برای 12 ساعت
-                                </small></a>
-                    </td>
+                <td>
+                    <button type="button" class="btn btn-info" data-toggle="modal" onclick="openModal( {{$row->id}} );"><small>
+                        باز کردن
+                        </small></a>
+                </td>
 
 
                 </tr>
@@ -84,4 +77,79 @@
         </div>
     </div>
 </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">باز کردن ارایه برای ارزیابی</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                    <label for="time" class="col-md-3 control-label">
+                        مدت زمان باز کردن:
+                    </label>
+                    <input type="hidden" id="id" name="id" value="??">
+                    <input type=number id="time" name="time" style="width:4em;">
+                        <span   >
+                            دقیقه
+                        </span>
+
+                </div>
+                    <div class="row">
+                    <label id="errorMessage" class="error-content"></label>
+                </div>
+                    <div class="row" style="padding-top: 1em;">
+                        <div class="col-md-2">
+                            <button type="button" onclick="submitModal();" class="btn btn-default" >باز کن</a>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn" data-dismiss="modal">انصراف</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="row" style="padding-bottom: 1em">
+                        <div class="col-md-3">
+                            <a class="btn btn-info" onclick="submitModal(15);" role=button">
+                                <small>
+                                    باز کردن برای 15 دقیقه
+                                </small>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-info" onclick="submitModal(720);" role=button">
+                                <small>
+                                    باز کردن برای 12 ساعت
+                                </small>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        function openModal(id)
+        {
+            $("#id").val(id);
+            $('#myModal').modal();
+        }
+
+        function submitModal(time)
+        {
+            if(time==null && $("#time").val()==""){
+                $("#errorMessage").innerText = "مدت زمان تمدید را مشخص کنید";
+                return;
+            }
+            if(time==null)
+                time = $("#time").val();
+            href = "/admin/open_evaluation/" + $("#id").val() +"/"+ time + "/now";
+            window.location.href = href;
+        }
+    </script>
 @endsection

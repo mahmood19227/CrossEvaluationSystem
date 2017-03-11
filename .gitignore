@@ -1,8 +1,8 @@
 vendor/
 node_modules/
-.idea/
+.idea/*
 .htaccess
-
+public/.htaccess
 
 # Laravel 4 specific
 bootstrap/compiled.php

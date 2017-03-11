@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
     <?php
-    //echo $presentation;
     ?>
 
     <div class="container">
@@ -56,8 +55,8 @@
                             </label>
                             <div class="col-md-3">
                                 <input id="{{ $factor->id }}" name="{{ $factor->id }}" type="number" class="form-control" placeholder="
-                                بین {{ $factor->min }} و {{ $factor->max }}">
-
+                                بین {{ $factor->min }} و {{ $factor->max }}"
+                                        value="{{$evaluations->where('factorid',$factor->id)->first()?$evaluations->where('factorid',$factor->id)->first()->point:""}}">
                                 <!--@if ($errors->has('title'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('title') }}</strong>

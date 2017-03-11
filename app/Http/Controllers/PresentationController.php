@@ -51,7 +51,12 @@ class PresentationController extends Controller
     function evaluatePresentation(Request $request){
         $factors = Factor::all();
         $presentation = Presentation::find($request['id']);
-        return view('evaluatePresentation',['factors'=>$factors,'presentation'=>$presentation]);
+        $evaluations =Evaluation::where('userid','=',Auth::user()->id)
+            ->where('presentationid','=', $request['id'])
+            ->get();
+        //echo $evaluations;
+        return view('evaluatePresentation',
+            ['factors'=>$factors,'presentation'=>$presentation,'evaluations'=>$evaluations]);
     }
 
     public function registerPresentationForm(){
