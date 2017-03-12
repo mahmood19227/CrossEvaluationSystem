@@ -65,12 +65,14 @@ class PresentationController extends Controller
         return view('register_presentation')
             ->with('user_presentation',$user_presentation);
     }
+
     public function registerEvaluations(Request $request){
         $now = str_replace('T',' ', date(DATE_ATOM));
         $now = str_replace('+00:00','',$now);
         $presentation = Presentation::find($request['presentation_id']);
         if($presentation->evaluation_start>=$now or $presentation->evaluation_end<=$now)
-            return view('home')->with('message','اکنون زمان ارزیابی این ارایه نیست');
+            if(!Auth::user()->isAdmin())
+                return view('home')->with('message','اکنون زمان ارزیابی این ارایه نیست');
         $userid = Auth::user()->id;
         $presentationdid = $presentation->id;
         $factors = Factor::all();

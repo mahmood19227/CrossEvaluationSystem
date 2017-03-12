@@ -25,7 +25,6 @@ class AuthController extends Controller
 
     /**
      * Where to redirect users after login / registration.
-     *
      * @var string
      */
     protected $redirectTo = '/';
@@ -68,5 +67,13 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    protected function authenticated($request,$user){
+        if($user->usertype == 1){//admin
+            return redirect()->intended('admin'); //redirect to admin panel
+        }
+
+        return redirect()->intended('/'); //redirect to standard user homepage
     }
 }

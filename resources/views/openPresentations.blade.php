@@ -6,6 +6,12 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
+                <div class="panel-heading">لیست ارایه های باز</div>
+                @if($open_presentation->count()==0)
+                    <div class="panel-body">
+                        در حال حاضر هیچ ارایه ای برای ارزیابی باز نیست
+                    </div>
+                @else
             <table id="table1" class="table table-stripped table-bordered table-hover">
                 <thead>
                     <tr>
@@ -41,6 +47,7 @@
                 <?php
                 } ?>
             </table>
+            @endif
         </div>
         </div>
     </div>

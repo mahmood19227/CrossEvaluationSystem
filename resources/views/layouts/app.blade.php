@@ -29,9 +29,13 @@
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
+                @if(Auth::user()->isAdmin())
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url('/home') }}">خانه</a></li>
+                    <li><a href="{{ url('/admin/') }}">
+پنل مدیریت
+                        </a></li>
                 </ul>
+                @endif
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/register_presentation') }}">
 ثبت اطلاعات ارایه
