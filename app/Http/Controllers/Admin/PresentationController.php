@@ -37,4 +37,8 @@ class PresentationController extends \App\Http\Controllers\PresentationControlle
                 return $this->viewPresentations('مشکلی پیش آمده است.');
         }
     }
+
+    function viewEvaluations(){
+
+    }
 }

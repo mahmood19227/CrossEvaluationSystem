@@ -29,6 +29,8 @@
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
+
+            @if(!Auth::guest())
                 @if(Auth::user()->isAdmin())
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/admin/') }}">
@@ -36,6 +38,7 @@
                         </a></li>
                 </ul>
                 @endif
+            @endif
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/register_presentation') }}">
 ثبت اطلاعات ارایه

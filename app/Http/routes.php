@@ -36,6 +36,7 @@ Route::group(['middleware' => 'App\Http\Middleware\AdminMiddleware'], function()
     Route::get('/admin','Admin\HomeController@index');
     Route::get('/admin/presentations','Admin\PresentationController@viewPresentations');
     Route::get('/admin/open_evaluation/{id}/{period}/{offset}','Admin\PresentationController@openEvaluation');
+    Route::get('/view_evaluations','Admin\PresentationController@viewEvaluations');
 });
 
 //Route::get('/admin/home', 'Admin\HomeController@index');
