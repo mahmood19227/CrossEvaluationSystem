@@ -20,11 +20,11 @@
                             عنوان ارایه
                         <th class="col-sm-3">
                             ارایه دهنده
-                        <th class="col-sm-3">
+                        <th class="col-sm-2">
 شروع ارزیابی
-                        <th class="col-sm-3">
+                        <th class="col-sm-2">
                             پایان ارزیابی
-                        <th class="col-sm-3">
+                        <th class="col-md-5">
                             وضعیت ارزیابی
                         <th class="col-sm-1">
                         <th class="col-sm-1">
@@ -50,9 +50,12 @@
                         $status = "";
                         if($row->evaluation_start>$now)
                             $status = 'هنوز ارزیابی نشده';
-                        elseif($row->evaluation_end<$now)
+                        elseif($row->evaluation_end<$now){
                             $status = 'ارزیابی شده';
-                        else{
+                            $status .= "<br/><small><a href=admin/view_evaluations/$row->id>";
+                            $status .= "نتیجه ارزیابی";
+                            $status .= "</a></small>";
+                        }else{
                             $status = "در حال ارزیابی<br/> <small>زمان باقی مانده:";
                             $remaining = strtotime( $row->evaluation_end )- time();
                             $status .= date("H:i:s",$remaining);
@@ -148,7 +151,8 @@
             }
             if(time==null)
                 time = $("#time").val();
-            href = "/admin/open_evaluation/" + $("#id").val() +"/"+ time + "/now";
+            //this ces prefix must be corrected
+            href = "/ces/admin/open_evaluation/" + $("#id").val() +"/"+ time + "/now";
             window.location.href = href;
         }
     </script>
