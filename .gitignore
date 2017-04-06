@@ -1,6 +1,7 @@
 vendor/
 node_modules/
 .idea/
+.idea/workspace.xml
 
 # Laravel 4 specific
 bootstrap/compiled.php
@@ -66,5 +67,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-.idea/workspace.xml
 *.htaccess

@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\Eval_;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class PresentationController extends \App\Http\Controllers\PresentationController
 {
@@ -38,7 +40,51 @@ class PresentationController extends \App\Http\Controllers\PresentationControlle
         }
     }
 
-    function viewEvaluations(){
+    function viewEvaluations($id){
+        $presentation = Presentation::find($id);
+        $evaluations = $presentation->evaluations()->get();
+        //echo $evaluations;
+        $avgs = $presentation->evaluations()->groupBy('factorid')->selectRaw('*,avg(point) as avg')->get();
+        //echo $avgs;
+        return view('admin.evaluations',['presentation'=>$presentation,'evaluations'=>$evaluations]);
+    }
 
+    function exportEvaluations($id)
+    {
+        $presentation = Presentation::find($id);
+        $evaluations = $presentation->evaluations()
+            ->join('users','userid','=','users.id')
+            ->join('factors','factorid','=','factors.id')
+            ->select('evaluations.*','users.name as username','factors.name as factorname')
+            ->get();
+
+        $evaluationsArray = [];
+        $evaluationsArray[] = ['موضوع ارایه',$presentation->title];
+        $evaluationsArray[] = ['ارایه دهنده',$presentation->user->name];
+        $evaluationsArray[] = ['تاریخ ارایه',$presentation->presentationdate];
+        $evaluationsArray[] = [];
+            // Define the Excel spreadsheet headers
+        $evaluationsArray[] = ['id', 'presentationid','factorid','userid','point','username','factorname'];
+
+        // Convert each member of the returned collection into an array,
+        // and append it to the payments array.
+        foreach ($evaluations as $eval) {
+            $evaluationsArray[] = $eval->toArray();
+        }
+
+        // Generate and return the spreadsheet
+        Excel::create('evaluations', function($excel) use ($evaluationsArray) {
+
+            // Set the spreadsheet title, creator, and description
+            $excel->setTitle('Evaluations');
+            $excel->setCreator('CES')->setCompany('Mahmood Farokhian');
+            $excel->setDescription('evaluations file');
+
+            // Build the spreadsheet, passing in the payments array
+            $excel->sheet('sheet1', function($sheet) use ($evaluationsArray) {
+                $sheet->fromArray($evaluationsArray, null, 'A1', false, false);
+            });
+
+        })->download('xlsx');
     }
 }

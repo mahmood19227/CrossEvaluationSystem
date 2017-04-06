@@ -4,7 +4,6 @@
     </IfModule>
 
     RewriteEngine On
-    RewriteBase /ces/
 	Require all granted
 	Order allow,deny
     Allow from all

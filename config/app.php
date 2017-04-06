@@ -160,7 +160,7 @@ return [
         * Backpack Service Providers...
         */
         //Backpack\Base\BaseServiceProvider::class,
-		
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -208,6 +208,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'ADMIN'=> 1,
         'USER' => 0,
+        'Excel'     => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

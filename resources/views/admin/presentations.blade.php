@@ -1,4 +1,4 @@
-@extends('layouts.adminPanel')
+@extends('layouts.app')
 @section('content')
     <script>
     </script>
@@ -52,7 +52,7 @@
                             $status = 'هنوز ارزیابی نشده';
                         elseif($row->evaluation_end<$now){
                             $status = 'ارزیابی شده';
-                            $status .= "<br/><small><a href=admin/view_evaluations/$row->id>";
+                            $status .= "<br/><small><a href=view_evaluations/$row->id>";
                             $status .= "نتیجه ارزیابی";
                             $status .= "</a></small>";
                         }else{
