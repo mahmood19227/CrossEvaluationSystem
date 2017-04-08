@@ -54,28 +54,71 @@ class PresentationController extends \App\Http\Controllers\PresentationControlle
         $presentation = Presentation::find($id);
         $evaluations = $presentation->evaluations()
             ->join('users','userid','=','users.id')
-            ->join('factors','factorid','=','factors.id')
-            ->select('evaluations.*','users.name as username','factors.name as factorname')
+            ->join('factors','factorid','=','factors.id');
+        $users = $evaluations->select('users.name')->distinct()->get();
+        $factors = $evaluations->select('factors.name')->distinct()->get();
+        $points = $evaluations
+            ->select('users.name as username','factors.name as factorname','evaluations.point')
             ->get();
 
+
+        $usersArray = [];
+        foreach ($users as $user) {
+            $usersArray[] = $user['name'];
+        }
+        foreach ($factors as $factor) {
+            $factorsArray[] = $factor['name'];
+        }
+        //print_r($factorsArray);
+
         $evaluationsArray = [];
+
         $evaluationsArray[] = ['موضوع ارایه',$presentation->title];
         $evaluationsArray[] = ['ارایه دهنده',$presentation->user->name];
         $evaluationsArray[] = ['تاریخ ارایه',$presentation->presentationdate];
         $evaluationsArray[] = [];
             // Define the Excel spreadsheet headers
-        $evaluationsArray[] = ['id', 'presentationid','factorid','userid','point','username','factorname'];
+        $evaluationsArray[] = ['', 'نمرات استاد','میانگین کلاس', '', 'نزدیکترین تقریب','=MIN(E12:E100)','=VLOOKUP(F5,E12:F100,2,TRUE)'];
+        $evaluationsArray[] = ['فن بیان', '', '=AVERAGE(A12:A100)', '', 'دورترین تقریب', '=MAX(E12:E100)','=VLOOKUP(F6,E12:F100,2,TRUE)'];
+        $evaluationsArray[] = ['کیفیت مطلب', '', '=AVERAGE(B12:B100)'];
+        $evaluationsArray[] = ['کیفیت اسلایدها' , '', '=AVERAGE(C12:C100)'];
+        $evaluationsArray[] = ['زمان بندی' ,'', '=AVERAGE(D12:D100)'];
+
+        $evaluationsArray[] = [];
+
+
+        foreach ($factorsArray as $factor) {
+            $evaluationsArray[10][array_search($factor,$factorsArray)] = $factor;
+        }
+        $evaluationsArray[10][4] = 'فاصله';
+        $evaluationsArray[10][5] = 'کاربر';
 
         // Convert each member of the returned collection into an array,
         // and append it to the payments array.
-        foreach ($evaluations as $eval) {
-            $evaluationsArray[] = $eval->toArray();
+        //echo $factorsArray;
+        foreach ($points as $eval) {
+            //$evaluationsArray[] = $eval->toArray();
+            $row = array_search($eval->username,$usersArray)+11;
+            $col = array_search($eval->factorname,$factorsArray);
+            //$p = $eval->point;
+            //echo "$row , $col => $p<br/>";
+            $evaluationsArray[$row][$col] = $eval->point;
         }
 
-        // Generate and return the spreadsheet
-        Excel::create('evaluations', function($excel) use ($evaluationsArray) {
+        $sumsq = '=SUMSQ(A12:D12)';
+        foreach ($usersArray as $user) {
+            $row = array_search($user,$usersArray)+11;
+            $row1 = $row+1;
+            $evaluationsArray[$row][4] = "=SUMSQ(A$row1-B6,B$row1-B7,C$row1-B8,D$row1-B9)";
+            $evaluationsArray[$row][5] = $user; //5 = nfactors+1
+        }
+
+        //print_r($evaluationsArray);
+        //Generate and return the spreadsheet
+        Excel::create($presentation->user->name, function($excel) use ($evaluationsArray) {
 
             // Set the spreadsheet title, creator, and description
+            //$excel->setPreCalculateFormulas(false);
             $excel->setTitle('Evaluations');
             $excel->setCreator('CES')->setCompany('Mahmood Farokhian');
             $excel->setDescription('evaluations file');
@@ -86,5 +129,7 @@ class PresentationController extends \App\Http\Controllers\PresentationControlle
             });
 
         })->download('xlsx');
+        //*/
+
     }
 }
