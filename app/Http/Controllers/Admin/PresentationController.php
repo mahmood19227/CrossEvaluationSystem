@@ -78,11 +78,12 @@ class PresentationController extends \App\Http\Controllers\PresentationControlle
         $evaluationsArray[] = ['تاریخ ارایه',$presentation->presentationdate];
         $evaluationsArray[] = [];
             // Define the Excel spreadsheet headers
-        $evaluationsArray[] = ['', 'نمرات استاد','میانگین کلاس', '', 'نزدیکترین تقریب','=MIN(E12:E100)','=VLOOKUP(F5,E12:F100,2,TRUE)'];
-        $evaluationsArray[] = ['فن بیان', '', '=AVERAGE(A12:A100)', '', 'دورترین تقریب', '=MAX(E12:E100)','=VLOOKUP(F6,E12:F100,2,TRUE)'];
-        $evaluationsArray[] = ['کیفیت مطلب', '', '=AVERAGE(B12:B100)'];
-        $evaluationsArray[] = ['کیفیت اسلایدها' , '', '=AVERAGE(C12:C100)'];
-        $evaluationsArray[] = ['زمان بندی' ,'', '=AVERAGE(D12:D100)'];
+        $i = $users->count()+11;
+        $evaluationsArray[] = ['', 'نمرات استاد','میانگین کلاس', '', 'نزدیکترین تقریب',"=MIN(E12:E$i)","=VLOOKUP(F5,E12:F$i,2,TRUE)"];
+        $evaluationsArray[] = ['فن بیان', '', '=AVERAGE(A12:A100)', '', 'دورترین تقریب', "=MAX(E12:E$i)","=VLOOKUP(F6,E12:F$i,2,TRUE)"];
+        $evaluationsArray[] = ['کیفیت مطلب', '', "=AVERAGE(B12:B$i)"];
+        $evaluationsArray[] = ['کیفیت اسلایدها' , '', "=AVERAGE(C12:C$i)"];
+        $evaluationsArray[] = ['زمان بندی' ,'', "=AVERAGE(D12:D$i)"];
 
         $evaluationsArray[] = [];
 
@@ -105,11 +106,11 @@ class PresentationController extends \App\Http\Controllers\PresentationControlle
             $evaluationsArray[$row][$col] = $eval->point;
         }
 
-        $sumsq = '=SUMSQ(A12:D12)';
+
         foreach ($usersArray as $user) {
             $row = array_search($user,$usersArray)+11;
             $row1 = $row+1;
-            $evaluationsArray[$row][4] = "=SUMSQ(A$row1-B6,B$row1-B7,C$row1-B8,D$row1-B9)";
+            $evaluationsArray[$row][4] = "=SUMSQ(A$row1-B\$6,B$row1-B\$7,C$row1-B\$8,D$row1-B\$9)";
             $evaluationsArray[$row][5] = $user; //5 = nfactors+1
         }
 
