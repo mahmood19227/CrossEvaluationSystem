@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 
 });
+
+Route::get('/standings','UserController@standings');
+
 Route::get('/register_presentation', 'PresentationController@registerPresentationForm');
 
 Route::get('/do_register_presentation', 'PresentationController@do_register');

@@ -21,7 +21,7 @@ class PresentationController extends \App\Http\Controllers\PresentationControlle
     //
     function viewPresentations($message=null){
         $presentations = Presentation::all();
-        echo $presentations->count();
+        //echo $presentations->count();
         return view('admin.presentations')
             ->with('presentations',$presentations)
             ->with('message',$message);
@@ -131,6 +131,5 @@ class PresentationController extends \App\Http\Controllers\PresentationControlle
 
         })->download('xlsx');
         //*/
-
     }
 }

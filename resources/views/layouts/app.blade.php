@@ -60,7 +60,11 @@
 ارایه های باز
                         </a></li>
                 </ul>
-
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url('/standings') }}">
+                            جدول امتیازات
+                        </a></li>
+                </ul>
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
