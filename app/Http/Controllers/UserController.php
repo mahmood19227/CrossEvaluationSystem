@@ -25,6 +25,19 @@ class UserController extends Controller
 
     public function standings()
     {
+        $now = str_replace('T',' ', date(DATE_ATOM));
+        $now = str_replace('+00:00','',$now);
+        echo $now;
+        $openPresentation = Presentation::
+            where('evaluation_start','<=',$now)
+            ->where('evaluation_end','>=',$now)
+            ->count();
+        echo $openPresentation;
+        if($openPresentation>0) {
+            $message = 'در ساعاتی که نظرسنجی ارایه ها باز است امکان مشاهده رده بندی وجود ندارد';
+            return view('home', ['message' => $message]);
+        }
+
         $points = [];
         $adminPoints =[]; //[presentationid,factorid]
         $evaluationsArray = []; //userid, factorid, presentationid
@@ -83,13 +96,8 @@ class UserController extends Controller
             $avgs[$user->id] = $points[$user->id]['avg'];
             $points[$user->id]['username'] = $user->name;
         }
-        //var_dump($points);
-        //var_dump($sums);
         array_multisort($avgs, SORT_ASC,$points);
-        //var_dump($points);
-        //print_r($users);
         return view('standings',['points'=>$points,'factors'=>$factor]);
-        //*/
     }
 
 }
