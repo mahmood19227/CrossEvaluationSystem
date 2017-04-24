@@ -25,6 +25,7 @@ class UserController extends Controller
 
     public function standings()
     {
+        //running queries
         $now = str_replace('T',' ', date(DATE_ATOM));
         $now = str_replace('+00:00','',$now);
         echo $now;
@@ -33,66 +34,82 @@ class UserController extends Controller
             ->where('evaluation_end','>=',$now)
             ->count();
         echo $openPresentation;
-        if($openPresentation>0) {
+        if($openPresentation>0 && !(Auth::user()!=null && Auth::user()->isAdmin())) {
             $message = 'در ساعاتی که نظرسنجی ارایه ها باز است امکان مشاهده رده بندی وجود ندارد';
             return view('home', ['message' => $message]);
         }
 
+        //initializing
         $points = [];
-        $adminPoints =[]; //[presentationid,factorid]
+        $adminEvaluationArray =[]; //[presentationid,factorid]
         $evaluationsArray = []; //userid, factorid, presentationid
         $admin = User::where('usertype','=',1)->first();
-        //print_r($admin);
         $evaluations = Evaluation::where('userid','!=',$admin->id)->get();
         $adminEvaluations = Evaluation::where('userid','=',$admin->id)->get();
         $users = User::where('usertype','==','0')->get();
         $factors = Factor::all();
-        //var_dump($evaluations);
         $presentations = Evaluation::join('presentations','evaluations.presentationid','=','presentations.id')->select('evaluations.presentationid as id','presentations.userid as userid')->distinct()->get();
-        $penalty = 200;
+        $penalty = 100;
         $selfPoint = 0;
-        //var_dump($presentations->toArray());
 
+
+        //initialize points array and evaluationArray
+        //points = final points of each user in each factor
+        /*
         foreach($users as $user) {
             foreach ($factors as $factor) {
                 $points[$user->id][$factor->id] = 0;
-                foreach($presentations as $presentation)
+                /*foreach($presentations as $presentation)
                     $evaluationsArray[$user->id][$factor->id][$presentation->id] = ($user->id==$presentation->userid)?$selfPoint:$penalty;
+
             }
             $points[$user->id]['evalcount'] = 0;
         }
-
+        //*/
+        //put admin evaluation in adminEvaluationArray
         foreach($adminEvaluations as $eval)
         {
-            $adminPoints[$eval->presentationid][$eval->factorid] = $eval->point;
+            $adminEvaluationArray[$eval->presentationid][$eval->factorid] = $eval->point;
         }
 
+        //put evaluations in evaluationArray
         foreach($evaluations as $eval)
         {
             $evaluationsArray[$eval->userid][$eval->factorid][$eval->presentationid] = $eval->point;
         }
 
-        foreach($users as $user)
+        //calculate points array, by adding distance of each evaluationArrays entry with adminEvaluationArray
+        $maxDist = 0;
+        foreach($users as $user) {
+            $points[$user->id]['evalcount'] = 0;
+            foreach ($factors as $factor) {
+                $points[$user->id][$factor->id] = 0;
+            }
             foreach ($presentations as $presentation)
-                foreach($factors as $factor)
-                {
-                    $dist = $evaluationsArray[$user->id][$factor->id][$presentation->id]-$adminPoints[$presentation->id][$factor->id];
-                    $points[$user->id][$factor->id] += $dist*$dist;
-                    //if()
-                    $points[$user->id]['evalcount'] +=1;
+                foreach ($factors as $factor) {
+                    if (isset($evaluationsArray[$user->id][$factor->id][$presentation->id])) {
+                        $dist = $evaluationsArray[$user->id][$factor->id][$presentation->id] - $adminEvaluationArray[$presentation->id][$factor->id];
+                        $maxDist = max($dist, $maxDist);
+                        $points[$user->id][$factor->id] += $dist * $dist;
+                        $points[$user->id]['evalcount'] += 1;
+                    }
                 }
+        }
 
         $avgs = [];
 
+        $maxEvalCount = 0;
+        foreach($points as $pointsRow) {
+            $maxEvalCount = max($maxEvalCount, $pointsRow['evalcount']);
+        }
+
         foreach($users as $user)
         {
-            $points[$user->id]['sum'] = 0;
+            $points[$user->id]['sum'] = ($maxEvalCount-$points[$user->id]['evalcount'])*$maxDist*$maxDist;
             foreach($factors as $factor) {
-                if($points[$user->id][$factor->id])
-                $points[$user->id]['sum'] += $points[$user->id][$factor->id];
+                    $points[$user->id]['sum'] += $points[$user->id][$factor->id];
             }
-            $div = ($points[$user->id]['evalcount']?$points[$user->id]['evalcount']:1);
-            $points[$user->id]['avg'] = sqrt($points[$user->id]['sum'] / $div ) ;
+            $points[$user->id]['avg'] = sqrt($points[$user->id]['sum'] / $maxEvalCount ) ;
             $avgs[$user->id] = $points[$user->id]['avg'];
             $points[$user->id]['username'] = $user->name;
         }

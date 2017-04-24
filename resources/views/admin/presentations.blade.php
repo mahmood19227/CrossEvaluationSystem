@@ -152,7 +152,8 @@
             if(time==null)
                 time = $("#time").val();
             //this ces prefix must be corrected
-            href = "/ces/admin/open_evaluation/" + $("#id").val() +"/"+ time + "/now";
+            //href = "/ces/admin/open_evaluation/" + $("#id").val() +"/"+ time + "/now";
+            href = "{{url('admin/open_evaluation')}}/" + $("#id").val() +"/"+ time + "/now";
             window.location.href = href;
         }
     </script>
