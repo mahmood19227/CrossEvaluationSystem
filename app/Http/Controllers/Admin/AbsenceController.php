@@ -24,8 +24,8 @@ class AbsenceController extends \App\Http\Controllers\Controller
 
     public function absenceRegForm()
     {
-        $users = User::where('usertype','!=','1')->get();
-        $presentation = Presentation::all();
+        $users = User::where('usertype','!=','1')->orderby('name')->get();
+        $presentation = Presentation::join('users','userid','=','users.id')->orderby('users.name')->get();
         return view('admin.register_absence',['users'=>$users,'presentations'=>$presentation]);
     }
 
