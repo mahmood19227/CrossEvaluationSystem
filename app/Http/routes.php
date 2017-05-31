@@ -42,6 +42,10 @@ Route::group(['middleware' => 'App\Http\Middleware\AdminMiddleware'], function()
     Route::get('/admin/view_evaluations/{id}','Admin\PresentationController@viewEvaluations');
     Route::get('/admin/export_evaluations/{id}',['as'=>'admin.exportEvaluations',
         'uses'=>'Admin\PresentationController@exportEvaluations']);
+    Route::get('/admin/register_absence','Admin\AbsenceController@absenceRegForm');
+    Route::post('/admin/register_absence','Admin\AbsenceController@doRegisterAbsence');
+    Route::get('/admin/remove_illegal_evaluations','Admin\AbsenceController@removeIllegalEvaluations');
+
 });
 
 //Route::get('/admin/home', 'Admin\HomeController@index');

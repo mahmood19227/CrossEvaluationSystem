@@ -28,12 +28,10 @@ class UserController extends Controller
         //running queries
         $now = str_replace('T',' ', date(DATE_ATOM));
         $now = str_replace('+00:00','',$now);
-        echo $now;
         $openPresentation = Presentation::
             where('evaluation_start','<=',$now)
             ->where('evaluation_end','>=',$now)
             ->count();
-        echo $openPresentation;
         if($openPresentation>0 && !(Auth::user()!=null && Auth::user()->isAdmin())) {
             $message = 'در ساعاتی که نظرسنجی ارایه ها باز است امکان مشاهده رده بندی وجود ندارد';
             return view('home', ['message' => $message]);
@@ -52,21 +50,6 @@ class UserController extends Controller
         $penalty = 100;
         $selfPoint = 0;
 
-
-        //initialize points array and evaluationArray
-        //points = final points of each user in each factor
-        /*
-        foreach($users as $user) {
-            foreach ($factors as $factor) {
-                $points[$user->id][$factor->id] = 0;
-                /*foreach($presentations as $presentation)
-                    $evaluationsArray[$user->id][$factor->id][$presentation->id] = ($user->id==$presentation->userid)?$selfPoint:$penalty;
-
-            }
-            $points[$user->id]['evalcount'] = 0;
-        }
-        //*/
-        //put admin evaluation in adminEvaluationArray
         foreach($adminEvaluations as $eval)
         {
             $adminEvaluationArray[$eval->presentationid][$eval->factorid] = $eval->point;
