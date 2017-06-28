@@ -19,7 +19,13 @@
                                     نام
                                 </th>
                                 <th class="col-sm-3">
-                                    امتیاز کلی
+جمع امتیاز
+                                </th>
+                                <th class="col-sm-3">
+معدل امتیاز
+                                </th>
+                                <th class="col-sm-3">
+تعداد ارزیابی
                                 </th>
                             </tr>
                             </thead>
@@ -34,6 +40,12 @@
                                         </td>
                                         <td>
                                             {{$point['sum']}}
+                                        </td>
+                                        <td>
+                                            {{$point['sum']/$point['evalcount']}}
+                                        </td>
+                                        <td>
+                                            {{$point['evalcount']/4}}
                                         </td>
                                     </tr>
                                 @endforeach
