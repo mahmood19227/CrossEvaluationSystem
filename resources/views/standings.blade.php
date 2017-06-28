@@ -42,7 +42,7 @@
                                             {{$point['sum']}}
                                         </td>
                                         <td>
-                                            {{$point['sum']/$point['evalcount']}}
+                                            {{$point['avg']}}
                                         </td>
                                         <td>
                                             {{$point['evalcount']/4}}
