@@ -91,8 +91,8 @@
       <file leaf-file-name="UserController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/UserController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.87731814" vertical-offset="2683" max-vertical-offset="4743">
-              <caret line="201" column="45" selection-start-line="201" selection-start-column="45" selection-end-line="201" selection-end-column="45" />
+            <state vertical-scroll-proportion="0.4422254" vertical-offset="2461" max-vertical-offset="4777">
+              <caret line="170" column="122" selection-start-line="170" selection-start-column="122" selection-end-line="170" selection-end-column="122" />
               <folding />
             </state>
           </provider>
@@ -937,8 +937,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/UserController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.87731814" vertical-offset="2683" max-vertical-offset="4743">
-          <caret line="201" column="45" selection-start-line="201" selection-start-column="45" selection-end-line="201" selection-end-column="45" />
+        <state vertical-scroll-proportion="0.4422254" vertical-offset="2461" max-vertical-offset="4777">
+          <caret line="170" column="122" selection-start-line="170" selection-start-column="122" selection-end-line="170" selection-end-column="122" />
           <folding />
         </state>
       </provider>

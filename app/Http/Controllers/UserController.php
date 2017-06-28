@@ -165,17 +165,19 @@ class UserController extends Controller
                         $maxDist = max($dist, $maxDist);
                         $points[$user->id][$factor->id] += $dist * $dist;
                         $points[$user->id]['evalcount'] += 1;
+
                     }
                 foreach ($users as $user)
-                    if (!isset($evaluationsArray[$user->id][$factor->id][$presentation->id])) {
+                    if (!isset($evaluationsArray[$user->id][$factor->id][$presentation->id]) && $user->id!=$presentation->userid) {
                         $points[$user->id][$factor->id] += $maxDist * $maxDist;
+                        if($user->id==29)
+                            echo "$presentation->id  $maxDist*$maxDist";
                     }
             }
         }
 
 
         $avgs = [];
-
         $maxEvalCount = 0;
         foreach($points as $pointsRow) {
             $maxEvalCount = max($maxEvalCount, $pointsRow['evalcount']);
