@@ -82,12 +82,12 @@ class UserController extends Controller
                 }
         }
 
-        echo $maxDistUser;
-        echo "max distance is $maxDist";
+        //echo $maxDistUser;
+        //echo "max distance is $maxDist";
 
         $avgs = [];
 
-        $maxEvalCount = 0;
+        $maxEvalCount = 1;
         foreach($points as $pointsRow) {
             $maxEvalCount = max($maxEvalCount, $pointsRow['evalcount']);
         }
@@ -188,7 +188,7 @@ class UserController extends Controller
             foreach($factors as $factor) {
                 $points[$user->id]['sum'] += $points[$user->id][$factor->id];
             }
-            $points[$user->id]['avg'] = sqrt($points[$user->id]['sum'] / $points[$user->id]['evalcount'] ) ;
+            $points[$user->id]['avg'] = sqrt($points[$user->id]['sum'] / max($points[$user->id]['evalcount'],1) ) ;
             $avgs[$user->id] = $points[$user->id]['avg'];
             $points[$user->id]['username'] = $user->name;
         }
