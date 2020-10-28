@@ -25,7 +25,7 @@ class AbsenceController extends \App\Http\Controllers\Controller
     public function absenceRegForm()
     {
         $users = User::where('usertype','!=','1')->orderby('name')->get();
-        $presentation = Presentation::join('users','userid','=','users.id')->orderby('users.name')->get();
+        $presentation = Presentation::join('users','userid','=','users.id')->orderby('presentation_date')->get();
         return view('admin.register_absence',['users'=>$users,'presentations'=>$presentation]);
     }
 
@@ -42,8 +42,8 @@ class AbsenceController extends \App\Http\Controllers\Controller
             $message = "غیبتها با موفقیت ذخیره شد";
         else
             $message = 'خطایی پیش آمده است';
-        $users = User::where('usertype','!=','1')->get();
-        $presentation = Presentation::all();
+        $users = User::where('usertype','!=','1')->orderby('name')->get();
+        $presentation = Presentation::join('users','userid','=','users.id')->orderby('presentation_date')->get();
         return view('admin.register_absence',['users'=>$users,'presentations'=>$presentation, 'message'=>$message]);
 
     }

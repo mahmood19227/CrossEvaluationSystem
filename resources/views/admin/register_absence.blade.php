@@ -32,7 +32,7 @@
                             <label for="presentation" class="col-md-4 control-label">
                                 ارایه مربوطه
                             </label>
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <select id="presentation" class="form-control" name="presentation[]" multiple size="10">
                                     @foreach($presentations as $presentation)
                                         <option value="{{$presentation->id}}">{{$presentation->title}} - {{$presentation->user->name}} ({{$presentation->presentation_date}})</option>

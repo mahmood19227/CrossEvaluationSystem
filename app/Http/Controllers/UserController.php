@@ -103,7 +103,7 @@ class UserController extends Controller
             $points[$user->id]['username'] = $user->name;
         }
         array_multisort($avgs, SORT_ASC,$points);
-        return view('standings',['points'=>$points,'factors'=>$factor]);
+        return view('standings',['points'=>$points,'factors_count'=>count($factors)]);
     }
 
 
