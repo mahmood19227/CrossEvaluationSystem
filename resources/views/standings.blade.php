@@ -45,7 +45,7 @@
                                             {{$point['avg']}}
                                         </td>
                                         <td>
-                                            {{$point['evalcount']/4}}
+                                            {{$point['evalcount']/$factors_count}}
                                         </td>
                                     </tr>
                                 @endforeach

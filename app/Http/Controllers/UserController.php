@@ -170,8 +170,8 @@ class UserController extends Controller
                 foreach ($users as $user)
                     if (!isset($evaluationsArray[$user->id][$factor->id][$presentation->id]) && $user->id!=$presentation->userid) {
                         $points[$user->id][$factor->id] += $maxDist * $maxDist;
-                        if($user->id==29)
-                            echo "$presentation->id  $maxDist*$maxDist";
+//                        if($user->id==29)
+//                            echo "$presentation->id  $maxDist*$maxDist";
                     }
             }
         }
@@ -193,7 +193,7 @@ class UserController extends Controller
             $points[$user->id]['username'] = $user->name;
         }
         array_multisort($avgs, SORT_ASC,$points);
-        return view('standings',['points'=>$points,'factors'=>$factor]);
+        return view('standings',['points'=>$points,'factors_count'=>count($factors)]);
     }
 
     //In this standing people aren't penaltized respect to their absences
@@ -276,7 +276,7 @@ class UserController extends Controller
             $points[$user->id]['username'] = $user->name;
         }
         array_multisort($avgs, SORT_ASC,$points);
-        return view('standings',['points'=>$points,'factors'=>$factor]);
+        return view('standings',['points'=>$points,'factors_count'=>count($factor)]);
     }
 
 }
